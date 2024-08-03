@@ -42,7 +42,7 @@ export default function AddItemsForm({
         className="border p-2 mb-2 w-full"
       />
       <button onClick={handleAddItem} className="bg-blue-500 text-white p-2 rounded">
-        Add Item
+        {itemName ? 'Update Item' : 'Add Item'}
       </button>
     </div>
   );
