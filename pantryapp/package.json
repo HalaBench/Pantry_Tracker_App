@@ -12,11 +12,13 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.6",
+    "@tabler/icons-react": "^3.11.0",
     "firebase": "^10.12.5",
     "next": "14.2.5",
     "next-sanity": "^9.4.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-webcam": "^7.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",

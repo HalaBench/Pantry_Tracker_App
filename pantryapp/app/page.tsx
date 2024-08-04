@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { db } from './firebaseConfig';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData } from 'firebase/firestore';
 import AddItemsForm from './components/AddItemsForm';
@@ -18,6 +18,7 @@ export default function Home() {
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showCamera, setShowCamera] = useState(false);
 
   const fetchPantryItems = async () => {
     try {
@@ -36,7 +37,6 @@ export default function Home() {
   const handleAddItem = async () => {
     try {
       if (editingItemId) {
-        // Update existing item
         await updateDoc(doc(db, 'pantryItems', editingItemId), {
           name: itemName,
           quantity: itemQuantity,
@@ -45,7 +45,6 @@ export default function Home() {
         });
         setEditingItemId(null);
       } else {
-        // Add new item
         await addDoc(collection(db, 'pantryItems'), {
           name: itemName,
           quantity: itemQuantity,
@@ -59,7 +58,6 @@ export default function Home() {
       setItemCategory('');
       setItemImage(null);
 
-      // Refresh the pantry items list
       fetchPantryItems();
       setShowAddForm(false);
     } catch (error) {
@@ -85,7 +83,7 @@ export default function Home() {
     setShowAddForm(true);
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -94,6 +92,11 @@ export default function Home() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleImageCapture = (imageSrc: string) => {
+    setItemImage(imageSrc);
+    setShowCamera(false);
   };
 
   const filteredItems = pantryItems.filter(item =>
@@ -128,6 +131,7 @@ export default function Home() {
         >
           Add an Item
         </button>
+        
       </div>
 
       <PantryItemsList
@@ -165,6 +169,7 @@ export default function Home() {
           isEditing={!!editingItemId}
         />
       </FormModal>
+
     </main>
   );
 }
