@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EditButton = ({ onClick }) => {
+const EditButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button onClick={onClick} className="bg-yellow-500 text-white px-10 py-2 rounded">
       Edit

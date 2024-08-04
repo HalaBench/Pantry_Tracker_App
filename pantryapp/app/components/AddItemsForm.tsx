@@ -2,6 +2,18 @@
 
 import React from 'react';
 
+interface AddItemsFormProps {
+  handleAddItem: () => void;
+  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  itemName: string;
+  setItemName: React.Dispatch<React.SetStateAction<string>>;
+  itemQuantity: number;
+  setItemQuantity: React.Dispatch<React.SetStateAction<number>>;
+  itemCategory: string;
+  setItemCategory: React.Dispatch<React.SetStateAction<string>>;
+  isEditing: boolean;
+}
+
 export default function AddItemsForm({
   handleAddItem,
   handleImageUpload,
@@ -11,7 +23,8 @@ export default function AddItemsForm({
   setItemQuantity,
   itemCategory,
   setItemCategory,
-}) {
+  isEditing,
+}: AddItemsFormProps) {
   return (
     <div className="mb-8">
       <input
@@ -41,8 +54,8 @@ export default function AddItemsForm({
         onChange={handleImageUpload}
         className="border p-2 mb-2 w-full"
       />
-      <button onClick={handleAddItem} className="bg-blue-500 text-white p-2 rounded">
-        {itemName ? 'Update Item' : 'Add Item'}
+      <button onClick={handleAddItem} className="bg-blue-500 text-white p-2 rounded w-full">
+        {isEditing ? 'Update Item' : 'Add Item'}
       </button>
     </div>
   );

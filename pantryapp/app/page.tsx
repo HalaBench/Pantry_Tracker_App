@@ -6,6 +6,7 @@ import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData } 
 import AddItemsForm from './components/AddItemsForm';
 import PantryItemsList from './components/PantryItemsList';
 import ImageModal from './components/Modal';
+import FormModal from './components/FormModal';
 
 export default function Home() {
   const [itemName, setItemName] = useState('');
@@ -17,7 +18,6 @@ export default function Home() {
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-
 
   const fetchPantryItems = async () => {
     try {
@@ -100,11 +100,9 @@ export default function Home() {
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-
   return (
     <main className="container m-auto shadow-xl bg-slate-100 bg-opacity-75 flex min-h-screen flex-col items-center justify-between p-24">
-
-      <div className="flex place-items-center before:rounded-full ">
+      <div className="flex place-items-center before:rounded-full">
         <h1 className="text-6xl text-green">Pantry Tracker App</h1>
       </div>
 
@@ -116,19 +114,21 @@ export default function Home() {
         className="border p-2 mb-4 w-full max-w-md"
       />
 
-
-      {showAddForm && (
-        <AddItemsForm
-          handleAddItem={handleAddItem}
-          handleImageUpload={handleImageUpload}
-          itemName={itemName}
-          setItemName={setItemName}
-          itemQuantity={itemQuantity}
-          setItemQuantity={setItemQuantity}
-          itemCategory={itemCategory}
-          setItemCategory={setItemCategory}
-        />
-      )}
+      <div className="flex gap-10 self-end mb-4">
+        <button
+          onClick={() => {
+            setShowAddForm(true);
+            setEditingItemId(null);
+            setItemName('');
+            setItemQuantity(0);
+            setItemCategory('');
+            setItemImage(null);
+          }}
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          Add an Item
+        </button>
+      </div>
 
       <PantryItemsList
         pantryItems={searchQuery ? filteredItems : pantryItems}
@@ -138,9 +138,6 @@ export default function Home() {
         onImageClick={(imageSrc) => setSelectedImage(imageSrc)}
       />
 
-
-
-
       {selectedImage && (
         <ImageModal
           isOpen={!!selectedImage}
@@ -148,6 +145,26 @@ export default function Home() {
           onClose={() => setSelectedImage(null)}
         />
       )}
+
+      <FormModal
+        isOpen={showAddForm}
+        onClose={() => {
+          setShowAddForm(false);
+          setEditingItemId(null);
+        }}
+      >
+        <AddItemsForm
+          handleAddItem={handleAddItem}
+          handleImageUpload={handleImageUpload}
+          itemName={itemName}
+          setItemName={setItemName}
+          itemQuantity={itemQuantity}
+          setItemQuantity={setItemQuantity}
+          itemCategory={itemCategory}
+          setItemCategory={setItemCategory}
+          isEditing={!!editingItemId}
+        />
+      </FormModal>
     </main>
   );
 }

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function DeleteButton({ id, handleDeleteItem }) {
+export default function DeleteButton({ id, handleDeleteItem }: { id: number, handleDeleteItem: (id: number) => void }) {
   return (
     <button
       onClick={() => handleDeleteItem(id)}
