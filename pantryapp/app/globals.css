@@ -18,6 +18,10 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  background-image: url('/images/bg.jpg'); /* Path to your image inside the public folder */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 @layer utilities {

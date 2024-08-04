@@ -6,13 +6,21 @@ import EditButton from './EditButton';
 
 export default function PantryItemsList({ pantryItems, handleDeleteItem, handleEditItem, setShowAddForm, onImageClick }) {
   return (
-    <section className='flex flex-col items-center justify-center'>
-      <button
-        onClick={() => setShowAddForm(true)}
-        className="bg-blue-500 text-white p-2 rounded self-end"
-      >
-        Add an Item
-      </button>
+    <section className='flex flex-col items-center justify-center min-w-full	min-h-full'>
+      <div className='flex gap-10 self-end'>
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          Recipe
+        </button>
+        <button
+          onClick={() => setShowAddForm(true)}
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          Add an Item
+        </button>
+      </div>
+
       <div className="container w-full mt-8 grid grid-cols-1 gap-4">
 
         {pantryItems.length === 0 ? (

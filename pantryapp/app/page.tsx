@@ -16,6 +16,8 @@ export default function Home() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   const fetchPantryItems = async () => {
     try {
@@ -94,11 +96,26 @@ export default function Home() {
     }
   };
 
+  const filteredItems = pantryItems.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full ">
-        <h1 className="text-6xl">Pantry Tracker App</h1>
+    <main className="container m-auto shadow-xl bg-slate-100 bg-opacity-75 flex min-h-screen flex-col items-center justify-between p-24">
+
+      <div className="flex place-items-center before:rounded-full ">
+        <h1 className="text-6xl text-green">Pantry Tracker App</h1>
       </div>
+
+      <input
+        type="text"
+        placeholder="Search by name"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="border p-2 mb-4 w-full max-w-md"
+      />
+
 
       {showAddForm && (
         <AddItemsForm
@@ -114,12 +131,15 @@ export default function Home() {
       )}
 
       <PantryItemsList
-        pantryItems={pantryItems}
+        pantryItems={searchQuery ? filteredItems : pantryItems}
         handleDeleteItem={handleDeleteItem}
         handleEditItem={handleEditItem}
         setShowAddForm={setShowAddForm}
         onImageClick={(imageSrc) => setSelectedImage(imageSrc)}
       />
+
+
+
 
       {selectedImage && (
         <ImageModal
